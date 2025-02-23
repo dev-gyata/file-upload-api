@@ -9,7 +9,7 @@ app = FastAPI()
 
 UPLOAD_DIR = "media"
 Path(UPLOAD_DIR).mkdir(exist_ok=True)
-
+RENDER_EXTERNAL_URL = os.getenv("RENDER_EXTERNAL_URL", "http://localhost:8000")
 
 @app.post("/uploadfile/")
 async def upload_file(file: UploadFile = File(...)):
@@ -24,7 +24,7 @@ async def upload_file(file: UploadFile = File(...)):
             buffer.write(await file.read())
 
         # Generate the URL for the uploaded file
-        file_url = f"http://localhost:8000/media/{generated_name}{file_extension}"
+        file_url = f"{RENDER_EXTERNAL_URL}/{UPLOAD_DIR}/{generated_name}{file_extension}"
 
         return JSONResponse(content={
             "message": "File uploaded successfully",
