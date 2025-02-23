@@ -44,6 +44,11 @@ async def serve_media_file(filename: str):
         raise HTTPException(status_code=404, detail="File not found")
     return FileResponse(file_path)
 
+
+@app.get("/health")
+async def health_check():
+    return JSONResponse(content={"message": "Hello World"})
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app ,host='0.0.0.0',port=os.environ.get('PORT',8080))
